@@ -64,6 +64,12 @@
     return self;
 }
 
+- (void)loadView
+{
+	[super loadView];
+	self.title = [self.brain descriptionOfProgram];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

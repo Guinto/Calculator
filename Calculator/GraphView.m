@@ -71,22 +71,29 @@
 	
 	CalculatorBrain *brain = [self.dataSource programForGraphView:self];
 	
+	// Initial point
 	NSNumber *x = [NSNumber numberWithDouble:origin.x];
 	NSDictionary *xCoord = [NSDictionary dictionaryWithObject:x forKey:@"x"];
 	double y = [brain runTestUsingVariableValues:xCoord];
 	
+	// Get context to draw
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	UIGraphicsPushContext(context);
 	
+	// Draw initial point
 	CGContextBeginPath(context);
 	CGContextMoveToPoint(context, [x doubleValue], y);
 	
-	for (int i = 0; i < bounds.size.width; i++) {
+	// Draw subsequent points
+	for (double i = 0; i < bounds.size.width; i++) {
 		x = [NSNumber numberWithDouble:i];
 		xCoord = [NSDictionary dictionaryWithObject:x forKey:@"x"];
 		y = [brain runTestUsingVariableValues:xCoord];
-		CGContextAddLineToPoint(context, [x doubleValue], y);
+		double realX = [x doubleValue] + origin.x;
+		double realY = -1 * (y * self.scale - origin.y);
+		NSLog(@"%f, %f", realX, realY);
+		CGContextAddLineToPoint(context, realX, realY);
 	}
 	
 	CGContextStrokePath(context);
