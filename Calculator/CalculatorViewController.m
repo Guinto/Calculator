@@ -33,29 +33,6 @@
 	return _brain;
 }
 
-- (IBAction)testPressed:(UIButton *)sender {
-	NSString *test = sender.currentTitle;
-	
-	self.testVariableValues = [[NSMutableDictionary alloc] init];
-	
-	if ([test isEqualToString:@"test1"]) {
-		[self.testVariableValues setObject:[NSNumber numberWithDouble:3] forKey:@"x"];
-		self.variableValues.text = @"x = 3";
-	} else if ([test isEqualToString:@"test2"]) {
-		[self.testVariableValues setObject:[NSNumber numberWithDouble:44.5] forKey:@"x"];
-		[self.testVariableValues setObject:[NSNumber numberWithDouble:4] forKey:@"y"];
-		[self.testVariableValues setObject:[NSNumber numberWithDouble:-14] forKey:@"foo"];
-		self.variableValues.text = @"x = 44.5 y = 4 foo = -14";
-	} else {
-		self.testVariableValues = nil;
-		self.variableValues.text = @"nil";
-	}
-		
-	double result = [self.brain runTestUsingVariableValues:self.testVariableValues];
-
-	self.display.text = [NSString stringWithFormat:@"%g", result];
-}
-
 - (IBAction)variablePressed:(UIButton *)sender {
 	self.userIsInTheMiddleOfEnteringANumber = NO;
 	
