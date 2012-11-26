@@ -64,11 +64,34 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-	CGPoint origin;
-	origin.x = 0;
-	origin.y = 0;
+	CGPoint origin = [self.dataSource originForGraphView:self];
+	CGRect bounds = self.bounds;
 	
-    [AxesDrawer drawAxesInRect:rect originAtPoint:[self.dataSource originForGraphView:self] scale:self.scale];
+    [AxesDrawer drawAxesInRect:rect originAtPoint:origin scale:self.scale];
+	
+	CalculatorBrain *brain = [self.dataSource programForGraphView:self];
+	
+	NSNumber *x = [NSNumber numberWithDouble:origin.x];
+	NSDictionary *xCoord = [NSDictionary dictionaryWithObject:x forKey:@"x"];
+	double y = [brain runTestUsingVariableValues:xCoord];
+	
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	UIGraphicsPushContext(context);
+	
+	CGContextBeginPath(context);
+	CGContextMoveToPoint(context, [x doubleValue], y);
+	
+	for (int i = 0; i < bounds.size.width; i++) {
+		x = [NSNumber numberWithDouble:i];
+		xCoord = [NSDictionary dictionaryWithObject:x forKey:@"x"];
+		y = [brain runTestUsingVariableValues:xCoord];
+		CGContextAddLineToPoint(context, [x doubleValue], y);
+	}
+	
+	CGContextStrokePath(context);
+	
+	UIGraphicsPopContext();
 }
 
 @end

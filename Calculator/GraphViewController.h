@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "GraphView.h"
+#import "CalculatorBrain.h"
 
 @interface GraphViewController : UIViewController
 
 @property (nonatomic) CGPoint origin;
+@property (weak, nonatomic) CalculatorBrain *brain;
 
 @end

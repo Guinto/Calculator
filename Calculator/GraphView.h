@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "AxesDrawer.h"
+#import "CalculatorBrain.h"
 
 @class GraphView; // forward declaration for use in @protocol
 
 @protocol GraphViewDataSource
 - (CGPoint)originForGraphView:(GraphView *)sender;
+- (CalculatorBrain *)programForGraphView:(GraphView *)sender;
 @end
 
 @interface GraphView : UIView

@@ -13,9 +13,14 @@
 @end
 
 @implementation GraphViewController
-
+@synthesize brain = _brain;
 @synthesize graphView = _graphView;
 @synthesize origin = _origin;
+
+- (CalculatorBrain *)programForGraphView:(GraphView *)sender
+{
+	return self.brain;
+}
 
 - (void)setOrigin:(CGPoint)origin
 {
@@ -41,7 +46,6 @@
 		newOrigin.x = self.origin.x + translation.x;
 		newOrigin.y = self.origin.y + translation.y;
         self.origin = newOrigin;
-		NSLog(@"%f, %f", self.origin.x, self.origin.y);
         [gesture setTranslation:CGPointZero inView:self.graphView];
     }
 }
