@@ -68,7 +68,7 @@
 	origin.x = 0;
 	origin.y = 0;
 	
-    [AxesDrawer drawAxesInRect:rect originAtPoint:origin scale:self.scale];
+    [AxesDrawer drawAxesInRect:rect originAtPoint:[self.dataSource originForGraphView:self] scale:self.scale];
 }
 
 @end

@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "AxesDrawer.h"
 
+@class GraphView; // forward declaration for use in @protocol
+
 @protocol GraphViewDataSource
-//- (float)smileForFaceView:(FaceView *)sender;
+- (CGPoint)originForGraphView:(GraphView *)sender;
 @end
 
 @interface GraphView : UIView

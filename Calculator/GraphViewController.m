@@ -38,14 +38,18 @@
         (gesture.state == UIGestureRecognizerStateEnded)) {
         CGPoint translation = [gesture translationInView:self.graphView];
 		CGPoint newOrigin;
-		newOrigin.x = self.origin.x - translation.x;
-		newOrigin.y = self.origin.y - translation.y;
+		newOrigin.x = self.origin.x + translation.x;
+		newOrigin.y = self.origin.y + translation.y;
         self.origin = newOrigin;
 		NSLog(@"%f, %f", self.origin.x, self.origin.y);
         [gesture setTranslation:CGPointZero inView:self.graphView];
     }
 }
 
+- (CGPoint)originForGraphView:(GraphView *)sender
+{
+    return self.origin; // translate Model for View
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
