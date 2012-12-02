@@ -13,7 +13,6 @@
 
 @property (nonatomic) CGPoint origin;
 @property (strong, nonatomic) id program;
-@property (nonatomic, assign) id <UISplitViewControllerDelegate> delagate;
 @property (nonatomic) IBOutlet UIToolbar *toolbar;
 
 @end

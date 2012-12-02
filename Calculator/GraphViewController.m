@@ -17,7 +17,6 @@
 @synthesize program = _program;
 @synthesize graphView = _graphView;
 @synthesize origin = _origin;
-@synthesize delagate = _delagate;
 @synthesize splitViewBarButtonItem = _splitViewBarButtonItem;
 @synthesize toolbar = _toolbar;
 
@@ -30,7 +29,6 @@
 - (void)setProgram:(id)program
 {
 	_program = program;
-	NSLog(@"yo");
 	[self.graphView setNeedsDisplay];
 }
 
@@ -106,7 +104,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	self.delagate = self;
+	self.splitViewController.delegate = self;
 	// Do any additional setup after loading the view.
 }
 
@@ -118,14 +116,14 @@
 - (void)setSplitViewBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
 	NSMutableArray *toolbarItems = [self.toolbar.items mutableCopy];
-	if (self.splitViewBarButtonItem) {
-		[toolbarItems removeObject:self.splitViewBarButtonItem];
+	if (_splitViewBarButtonItem) {
+		[toolbarItems removeObject:_splitViewBarButtonItem];
 	}
 	if (barButtonItem) {
 		[toolbarItems insertObject:barButtonItem atIndex:0];
 	}
 	self.toolbar.items = toolbarItems;
-	self.splitViewBarButtonItem	= barButtonItem;
+	_splitViewBarButtonItem	= barButtonItem;
 }
 
 - (void)splitViewController:(UISplitViewController *)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem *)barButtonItem forPopoverController:(UIPopoverController *)pc
