@@ -104,9 +104,22 @@
 	self.description.text = [self.brain descriptionOfProgram];
 }
 
+- (IBAction)graphPressed {
+	if (self.splitViewController) {
+		id detailViewController = [[self.splitViewController viewControllers] lastObject];
+		[detailViewController setProgram:self.brain.program];
+	} else {
+		[self performSegueWithIdentifier:@"showGraph" sender:self];
+	}
+
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	/*if (self.splitViewController) {
+		self.splitViewController.delegate = [self.splitViewController.viewControllers lastObject];
+	}*/
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -118,7 +131,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-	[[segue destinationViewController] setBrain:self.brain];
+	[segue.destinationViewController setProgram:self.brain.program];
 }
 
 @end

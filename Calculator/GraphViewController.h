@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import "GraphView.h"
-#import "CalculatorBrain.h"
 
-@interface GraphViewController : UIViewController
+@interface GraphViewController : UIViewController <UISplitViewControllerDelegate>
 
 @property (nonatomic) CGPoint origin;
-@property (weak, nonatomic) CalculatorBrain *brain;
+@property (strong, nonatomic) id program;
+@property (nonatomic, assign) id <UISplitViewControllerDelegate> delagate;
+@property (nonatomic) IBOutlet UIToolbar *toolbar;
 
 @end

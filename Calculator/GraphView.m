@@ -8,10 +8,15 @@
 
 #import "GraphView.h"
 
+@interface GraphView()
+@property (nonatomic) CGPoint origin;
+@end
+
 @implementation GraphView
 
 @synthesize dataSource = _dataSource;
 @synthesize scale = _scale;
+@synthesize origin = _origin;
 
 #define DEFAULT_SCALE 0.90
 
@@ -44,6 +49,7 @@
 - (void)setup
 {
     self.contentMode = UIViewContentModeRedraw; // if our bounds changes, redraw ourselves
+	self.scale = 35;
 }
 
 - (void)awakeFromNib
@@ -60,21 +66,29 @@
     return self;
 }
 
+- (double)getRealX:(NSNumber *)x
+{
+	return [x doubleValue] * self.scale + self.origin.x;
+}
+
+- (double)getRealY:(double)y
+{
+	return -(y * self.scale - self.origin.y);
+}
+
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-	CGPoint origin = [self.dataSource originForGraphView:self];
+	self.origin = [self.dataSource originForGraphView:self];
 	CGRect bounds = self.bounds;
 	
-    [AxesDrawer drawAxesInRect:rect originAtPoint:origin scale:self.scale];
-	
-	CalculatorBrain *brain = [self.dataSource programForGraphView:self];
+    [AxesDrawer drawAxesInRect:rect originAtPoint:self.origin scale:self.scale];
 	
 	// Initial point
-	NSNumber *x = [NSNumber numberWithDouble:origin.x];
+	NSNumber *x = [NSNumber numberWithDouble:-(bounds.size.width / 2) - self.origin.x];
 	NSDictionary *xCoord = [NSDictionary dictionaryWithObject:x forKey:@"x"];
-	double y = [brain runTestUsingVariableValues:xCoord];
+	double y = [self.dataSource yCoordForGraphView:self usingVariableValues:xCoord];
 	
 	// Get context to draw
 	CGContextRef context = UIGraphicsGetCurrentContext();
@@ -83,17 +97,14 @@
 	
 	// Draw initial point
 	CGContextBeginPath(context);
-	CGContextMoveToPoint(context, [x doubleValue], y);
+	CGContextMoveToPoint(context, [self getRealX:x], [self getRealY:y]);
 	
 	// Draw subsequent points
-	for (double i = 0; i < bounds.size.width; i++) {
-		x = [NSNumber numberWithDouble:i];
+	for (double i = [x doubleValue]; i < (bounds.size.width - self.origin.x); i++) {
+		x = [NSNumber numberWithDouble:i / self.scale];
 		xCoord = [NSDictionary dictionaryWithObject:x forKey:@"x"];
-		y = [brain runTestUsingVariableValues:xCoord];
-		double realX = [x doubleValue] + origin.x;
-		double realY = -1 * (y * self.scale - origin.y);
-		NSLog(@"%f, %f", realX, realY);
-		CGContextAddLineToPoint(context, realX, realY);
+		y = [self.dataSource yCoordForGraphView:self usingVariableValues:xCoord];
+		CGContextAddLineToPoint(context, [self getRealX:x], [self getRealY:y]);
 	}
 	
 	CGContextStrokePath(context);

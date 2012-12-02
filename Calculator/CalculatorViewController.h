@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "GraphViewController.h"
 
 @interface CalculatorViewController : UIViewController
 
@@ -14,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *variableValues;
 @property (weak, nonatomic) IBOutlet UILabel *description;
 
+- (IBAction)operationPressed:(UIButton *)sender;
+	
 @end

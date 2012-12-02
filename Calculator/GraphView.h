@@ -14,7 +14,7 @@
 
 @protocol GraphViewDataSource
 - (CGPoint)originForGraphView:(GraphView *)sender;
-- (CalculatorBrain *)programForGraphView:(GraphView *)sender;
+- (double)yCoordForGraphView:(GraphView *)sender usingVariableValues:(NSDictionary *)variableValues;
 @end
 
 @interface GraphView : UIView
